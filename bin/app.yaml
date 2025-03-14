@@ -1,6 +1,0 @@
-api:
-  addr: ":8090"
-  handlers:
-    events:
-      path: "/events"
-      broker: "nats://nats1:14222"
