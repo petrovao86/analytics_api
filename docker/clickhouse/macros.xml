@@ -1,0 +1,5 @@
+<clickhouse>
+    <macros>
+        <nats_url>nats1:4444</nats_url>
+    </macros>
+</clickhouse>

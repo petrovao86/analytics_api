@@ -1,0 +1,10 @@
+api:
+  addr: ":8888"
+  handlers:
+    events:
+      path: "/events"
+      storage: "clickhouse://user:pass@ch1:9000/default?sslmode=disable"
+
+generator:
+  addr: "http://api:8888/events"
+  rps: 300

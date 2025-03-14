@@ -1,0 +1,71 @@
+services:
+  ch1:
+    image: clickhouse/clickhouse-server:24.12-alpine
+    volumes:
+      - ./clickhouse/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ch1:/var/lib/clickhouse
+    ports:
+      - '127.0.0.1:${ETL_CH1_TCP_PORT:-19000}:9000'
+      - '127.0.0.1:${ETL_CH1_TCP_PORT:-18123}:8123'
+    environment:
+      - TZ=Europe/Moscow
+      - CLICKHOUSE_USER=user
+      - CLICKHOUSE_PASSWORD=pass
+    restart: always
+
+
+  api: &service
+    image: api:latest
+    build:
+      context: ..
+      dockerfile: ./docker/app.dockerfile
+    ports:
+      - '127.0.0.1:${ETL_API_PORT:-8888}:8888'
+    restart: always
+    volumes:
+      - ./app.yaml:/app/service.yaml
+    logging:
+      options:
+        max-size: 50m
+        max-file: 10
+    command: 
+      - --config=/app/service.yaml
+      - --service=api
+      - --log-level=debug
+  generator:
+    <<: *service
+    ports:
+      - '127.0.0.1:${ETL_API_PORT:-8889}:8888'
+    command: 
+      - --config=/app/service.yaml
+      - --service=generator
+      - --log-level=debug
+    environment:
+      - LL_GENERATOR_RPS=1000
+
+
+
+  prometheus:
+    image: prom/prometheus:v2.38.0
+    volumes:
+      - prometheus:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - '127.0.0.1:9090:9090'
+    restart: always
+    
+  grafana:
+    image: grafana/grafana:9.1.1
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./grafana/provisioning/datasources/demo.yaml:/etc/grafana/provisioning/datasources/demo.yaml
+      - ./grafana/provisioning/dashboards/demo.yaml:/etc/grafana/provisioning/dashboards/demo.yaml
+      - ./grafana/demo_dashboard.json:/var/lib/grafana/dashboards/demo_dashboard.json
+    ports:
+      - '127.0.0.1:3000:3000'
+    restart: always
+
+volumes:
+  ch1:
+  prometheus:
+  grafana:

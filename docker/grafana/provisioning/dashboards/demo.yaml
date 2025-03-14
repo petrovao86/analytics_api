@@ -1,0 +1,9 @@
+apiVersion: 1
+
+providers:
+  - name: Dashboard
+ # A uniquely identifiable name for the provider
+    folder: Demo # The folder where to place the dashboards
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
