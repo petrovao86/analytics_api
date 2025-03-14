@@ -7,4 +7,4 @@ api:
 
 generator:
   addr: "http://api:8888/events"
-  rps: 300
+  rps: 30
