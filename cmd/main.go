@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
+	"example.com/analytics_api/internal/api"
 	"example.com/analytics_api/internal/events"
-	"example.com/analytics_api/internal/services"
 	"example.com/analytics_api/pkg/config"
 	"example.com/analytics_api/pkg/service"
 	log "github.com/sirupsen/logrus"
@@ -90,9 +90,9 @@ func main() {
 	for _, svc := range svcs {
 		switch svc {
 		case "api":
-			s, err := services.NewApi(
+			s, err := api.NewService(
 				service.WithLogger(log.StandardLogger()),
-				services.WithHandlerFactory("events", events.NewHandler),
+				api.WithHandlerFactory("events", events.NewHandler),
 				config.WithReader[service.IService](cr),
 			)
 			if err != nil {

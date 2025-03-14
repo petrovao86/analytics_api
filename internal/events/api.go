@@ -100,7 +100,7 @@ func (h *apiHandler) handler(ctx *fiber.Ctx) error {
 	}
 	if err := h.repo.Insert(e); err != nil {
 		logrus.WithError(err).Error("request insert error")
-		return &fiber.Error{Code: http.StatusInternalServerError, Message: err.Error()}
+		return ctx.SendStatus(http.StatusInternalServerError)
 	}
 	return nil
 }
