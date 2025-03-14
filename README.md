@@ -178,4 +178,4 @@ order by date
 ### Grafana
 Логин `admin`, пароль `admin`
 
-web-интерфейс http://127.0.0.1:13000/d/f5kdf5hHz/demo-dashboard?orgId=1&refresh=5s
+web-интерфейс http://127.0.0.1:13000/d/BHS3-phNz/analytics-api?orgId=1&refresh=5s

@@ -2,6 +2,7 @@ services:
   ch1:
     image: clickhouse/clickhouse-server:24.12-alpine
     volumes:
+      - ./clickhouse/config.xml:/etc/clickhouse-server/config.xml
       - ./clickhouse/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ch1:/var/lib/clickhouse
     ports:

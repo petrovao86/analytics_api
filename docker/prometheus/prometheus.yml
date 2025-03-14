@@ -1,12 +1,17 @@
 global:
   scrape_interval: 1s
 
-# A scrape configuration containing exactly one endpoint to scrape:
 scrape_configs:
   - job_name: api
-    # List of labeled statically configured targets for this job.
     static_configs:
       - targets:
           - 'api:8888'
         labels:
           service: analytics
+
+  - job_name: clickhouse
+    static_configs:
+      - targets:
+          - 'ch1:9363'
+        labels:
+          service: clickhouse
