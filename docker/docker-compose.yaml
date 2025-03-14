@@ -22,14 +22,11 @@ services:
     ports:
       - '127.0.0.1:${ETL_API_PORT:-18888}:8888'
     restart: always
-    volumes:
-      - ./app.yaml:/app/service.yaml
     logging:
       options:
         max-size: 50m
         max-file: 10
     command: 
-      - --config=/app/service.yaml
       - --service=api
       - --log-level=debug
   generator:
@@ -37,7 +34,6 @@ services:
     ports:
       - '127.0.0.1:${ETL_API_PORT:-18889}:8888'
     command: 
-      - --config=/app/service.yaml
       - --service=generator
       - --log-level=debug
     environment:

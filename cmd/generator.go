@@ -25,6 +25,10 @@ func generator(ctx context.Context, cr config.IReader) {
 		log.Error(err)
 		return
 	}
+	if rps <= 0 {
+		log.Error("generator disabled")
+		return
+	}
 
 	addr, err := config.Get[string](generatorCr, "addr")
 	if err != nil {

@@ -16,5 +16,6 @@ USER 1000
 WORKDIR /app/
 
 COPY --from=build --chown=app:app /service /app/service
+ADD docker/app.yaml /app/service.yaml
 EXPOSE 8888
-ENTRYPOINT [ "/app/service"]
+ENTRYPOINT [ "/app/service", "--config=/app/service.yaml"]
